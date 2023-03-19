@@ -1,11 +1,35 @@
 format PE64 NX GUI 6.0
 entry start
 
+use64
+macro zer0 target {
+      xor target, target
+}
+
+macro add4 target {
+      add target, 4
+}
+
+macro add4rax {
+      add rax, 4
+}
+
+macro add4all target*{ ; Marks it as required
+      add target, 4
+}
+
+macro foo a, [b, c] {
+        common ; we'll explain what "common" means later
+                db a, b
+                db a, c
+        }
+
 section '.text' code readable executable
 start:
+        add4all eax
         int3
         sub rsp, 32
-        xor rcx, rcx
+        zer0 rcx
         int3
         call [ExitProcess]
 
